@@ -8,7 +8,7 @@ The perl script requires perl be installed on the machine.
 
 ### &ast;nix
 
-If perl is not installed on a &ast; machine, use the package manager to install `perl`. From there `perl update-kolmafia.pl` from the kolmafia directory will let it do its thing.
+If perl is not installed on a &ast;nix machine, use the package manager to install `perl`. From there `perl update-kolmafia.pl` from the kolmafia directory will let it do its thing.
 
 ### Windows
 
