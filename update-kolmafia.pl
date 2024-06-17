@@ -9,12 +9,23 @@
 use strict;
 use warnings;
 use LWP::Simple;
-use Win32::Symlinks;
+use Getopt::Long qw(GetOptions);
 
-# force admin in win32
-use English qw' -no_match_vars ';
-if ($OSNAME eq 'MSWin32') {
-	use Win32::RunAsAdmin qw(force);
+# options
+my $makesymlink;
+GetOptions('symlink!' => \$makesymlink) or die "$!";
+
+# need additional modules to make symlinks in Win32
+if ($makesymlink) {
+	use Win32::Symlinks;
+	# force admin in win32
+	use English qw' -no_match_vars ';
+	if ($OSNAME eq 'MSWin32') {
+		use Win32::RunAsAdmin;
+		if (not Win32::RunAsAdmin::check) {
+			Win32::RunAsAdmin::restart;
+		}
+	}
 }
 
 my ($page,$link,$file,$sym,$res);
@@ -40,8 +51,10 @@ else {
 }
 
 # make symlink
-if (readlink($sym) ne $file) {
+if ($makesymlink and readlink($sym) ne $file) {
 	print "creating symlink: $sym...\n";
 	unlink($sym);
 	symlink($file,$sym) or die "$!";
 }
+
+print "$0 done...\n";
