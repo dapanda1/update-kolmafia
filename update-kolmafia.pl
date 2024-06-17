@@ -12,7 +12,7 @@ use LWP::Simple;
 use Getopt::Long qw(GetOptions);
 
 # options
-my $makesymlink;
+my $makesymlink = 1;
 GetOptions('symlink!' => \$makesymlink) or die "$!";
 
 # need additional modules to make symlinks in Win32
@@ -57,4 +57,4 @@ if ($makesymlink and readlink($sym) ne $file) {
 	symlink($file,$sym) or die "$!";
 }
 
-print "$0 done...\n";
+print "$0 done.\n";
