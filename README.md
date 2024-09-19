@@ -16,22 +16,30 @@ To skip creating the symlink, the `--nosymlink` option can be used as such:
 
 The script requires Perl be installed. So if the above did not work, or if using Windows, check the following two sections:
 
-### Unix-like Oses
+### Unix-like OSes
 
-Perl is generally pre-installed with MacOS, most Linux distributions, and other Unix-like OSes. If Perl is somehow not installed, you should be able to easily install it via the package manager, app store, or other way your flavor of OS uses to let you install software from their repository. As a last resort, the Perl site can direct you where to download binaries for it: https://www.perl.org/get.html
+Perl is generally pre-installed with MacOS, most Linux distributions, and other Unix-like OSes. If Perl is somehow not installed, it should be able to easily installed via the package manager, app store, or other way the flavor of OS uses to install software from their repository. As a last resort, the Perl site can direct you where to download binaries for it: https://www.perl.org/get.html
 
-### Windows OS
-
-Unfortunately, on Windows, in order to create symlinks, the script needs to be run as admin. If you do not want the script running as admin, you can still get the rest of the non-symlink benefits with the `--nosymlink` option as stated in the [usage section](#usage), then you can also skip the installing of additional modules with `cpan` when it comes up.
+### Windows OSes
 
 Firstly, there needs to be a Perl environment of some sort installed. I use [strawberry perl](https://strawberryperl.com), but [ActiveState](https://www.activestate.com/products/perl/)'s should probably work fine.
 
-After a Perl environment is set up, 2 additional modules need to be installed via the windows command line using `cpan` in order for the script to create symlinks:
+Two verisons of the script are available to Windows based on whether you want symlink creation to work or not:
+
+#### update-kolmafia.pl
+
+`update-kolmafia.pl` works on Windows for everything except symlink creation.
+
+#### update-kolmafia-win32.pl
+
+`update-kolmafia-win32.pl` is for symlink creation to work on Windows, however, it requires additional modules and to be run as administrator.
+
+The additional modules required to make this work and can be installed with `cpan` on the command line:
 
 ```
 cpan Win32::Symlinks
 cpan Win32::RunAsAdmin
 ```
 
-After that is done, the Perl script can be run from the kolmafia directory, either by double-clicking on it or with `perl update-kolmafia.pl` on the command line. Unfortunately, there will be a UAC popup any time the script is started without admin privileges if making the symlink.
+Unfortunately, on Windows, there will be a UAC popup any time the script is started without admin privileges if making the symlink.
 

@@ -1,10 +1,14 @@
 #!/usr/bin/perl
-# update-kolmafia.pl
+# update-kolmafia-win32.pl
 # c2t
 
 # downloads latest KoLmafia into the current working directory if it does not already exist and creates a symbolic link "KoLmafia-latest.jar" to it
 
-# note for Win32 systems: while this mostly works with Win32 systems, symlink creation will fail unless you use the Win32 version of the script
+# note: this is specifically for win32 systems and for those who want to make symlinks there since running as admin and additional modules are required to do that there
+
+# the additional modules required can be installed with cpan via the command line:
+# cpan Win32::Symlinks
+# cpan Win32::RunAsAdmin
 
 
 use strict;
@@ -15,6 +19,19 @@ use Getopt::Long qw(GetOptions);
 # options
 my $makesymlink = 1;
 GetOptions('symlink!' => \$makesymlink) or die "$!";
+
+# need additional modules to make symlinks in Win32
+if ($makesymlink) {
+	use Win32::Symlinks;
+	# force admin in win32
+	use English qw' -no_match_vars ';
+	if ($OSNAME eq 'MSWin32') {
+		use Win32::RunAsAdmin;
+		if (not Win32::RunAsAdmin::check) {
+			Win32::RunAsAdmin::restart;
+		}
+	}
+}
 
 my ($page,$link,$file,$sym,$res);
 $sym = 'KoLmafia-latest.jar';
