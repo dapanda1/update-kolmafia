@@ -18,19 +18,17 @@ GetOptions('symlink!' => \$makesymlink) or die "$!";
 my $os = $^O;
 
 # need additional modules to make symlinks in Win32
-if ($makesymlink) {
-  if ($os eq 'MSWin32') {
-    # Attempt to load Win32::Symlink
-    eval {
-        require Win32::Symlink;
-        Win32::Symlink->import();
-    };    
-    # Attempt to load Win32::RunAsAdmin
-    eval {
-        require Win32::RunAsAdmin;
-        Win32::RunAsAdmin->import();
-    };
-}
+if ($makesymlink and $os eq 'MSWin32') {
+	# Attempt to load Win32::RunAsAdmin
+	eval {
+		require Win32::RunAsAdmin;
+		Win32::RunAsAdmin->import('force');
+	};
+	# Attempt to load Win32::Symlinks
+	eval {
+		require Win32::Symlinks;
+		Win32::Symlinks->import();
+	};
 }
 
 my ($page,$link,$file,$sym,$res);
@@ -57,12 +55,12 @@ else {
 
 # make symlink
 if ($makesymlink) {
-    my $existing_link = readlink($sym);  # readlink may return undef if the link does not exist
-    if (!$existing_link || $existing_link ne $file) {
-        print "creating symlink: $sym...\n";
-        unlink($sym);
-        symlink($file, $sym) or die "$!";
-    }
+	my $existing_link = readlink($sym);  # readlink may return undef if the link does not exist
+	if (!$existing_link || $existing_link ne $file) {
+		print "creating symlink: $sym...\n";
+		unlink($sym);
+		symlink($file, $sym) or die "$!";
+	}
 }
 
 print "$0 done.\n";

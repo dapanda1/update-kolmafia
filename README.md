@@ -24,22 +24,14 @@ Perl is generally pre-installed with MacOS, most Linux distributions, and other 
 
 Firstly, there needs to be a Perl environment of some sort installed. I use [strawberry perl](https://strawberryperl.com), but [ActiveState](https://www.activestate.com/products/perl/)'s should probably work fine.
 
-Two verisons of the script are available to Windows based on whether you want symlink creation to work or not:
+If you don't care about making the symlink, then you don't need to do anything else and the script should run fine as in the [usage section](#usage). Because unfortunately, in order to make symlinks under Windows, the script will need to be run as an administrator and additional modules are required.
 
-#### update-kolmafia.pl
-
-`update-kolmafia.pl` works on Windows for everything except symlink creation.
-
-#### update-kolmafia-win32.pl
-
-`update-kolmafia-win32.pl` is for symlink creation to work on Windows, however, it requires additional modules and to be run as administrator.
-
-The additional modules required to make this work and can be installed with `cpan` on the command line:
+The additional modules that are required to make symlinks under Windows can be installed with `cpan` on the command line:
 
 ```
 cpan Win32::Symlinks
 cpan Win32::RunAsAdmin
 ```
 
-Unfortunately, on Windows, there will be a UAC popup any time the script is started without admin privileges if making the symlink.
+There will be a UAC popup any time the script is started without admin privileges if making the symlink.
 
