@@ -14,7 +14,14 @@ To skip creating the symlink, the `--nosymlink` option can be used as such:
 
 ## Perl is Required
 
-The script requires Perl be installed. So if the above did not work, or if using Windows, check the following two sections:
+The script requires Perl be installed. Some modules are required as well, which can be installed via `cpan` in the terminal or on the command line if they are not already installed like so:
+
+```
+cpan LWP::Simple
+cpan Getopt::Long
+```
+
+If the script still doesn't work after doing the above, or if there are errors trying the above, check the following two sections:
 
 ### Unix-like OSes
 
