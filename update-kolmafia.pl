@@ -63,4 +63,29 @@ if ($makesymlink) {
 	}
 }
 
+# Keep only the five newest versions
+opendir(my $dh, ".") or die "Could not open current directory: $!";
+my @files;
+
+# Filter only KoLmafia-*.jar files
+while (my $entry = readdir($dh)) {
+	if ($entry =~ /^KoLmafia-\d+\.jar$/ && -f $entry) {
+		push @files, $entry;
+	}
+}
+closedir($dh);
+
+# Sort files by modification time (newest first)
+@files = sort { (stat($b))[9] <=> (stat($a))[9] } @files;
+
+# Remove older versions if more than 5
+if (@files > 5) {
+	print "Cleaning up older versions...\n";
+	while (@files > 5) {
+		my $old_file = pop @files;  # pop gets the oldest file
+		print "Deleting old version: $old_file\n";
+		unlink($old_file) or warn "Could not delete $old_file: $!";
+	}
+}
+
 print "$0 done.\n";
